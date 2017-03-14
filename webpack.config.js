@@ -82,18 +82,6 @@ const webpackConfig = {
       }
     ]
   },
-  resolve: {
-    alias: {
-      'TweenMax': path.resolve('node_modules', 'gsap/src/uncompressed/TweenMax.js'),
-      'TweenLite': path.resolve('node_modules', 'gsap/src/uncompressed/TweenLite.js'),
-      'TimelineMax': path.resolve('node_modules', 'gsap/src/uncompressed/TimelineMax.js'),
-      'EasingMax': path.resolve('node_modules', 'gsap/src/uncompressed/easing/EasePack.js'),
-      'ScrollTo': path.resolve('node_modules', 'gsap/src/uncompressed/plugins/ScrollToPlugin.js'),
-      'ScrollMagic': path.resolve('node_modules', 'scrollmagic/scrollmagic/uncompressed/ScrollMagic.js'),
-      'animation.gsap': path.resolve('node_modules', 'scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js'),
-      'debug.addIndicators': path.resolve('node_modules', 'scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js')
-    }
-  },
   plugins: [
     new ExtractTextPlugin({
       filename: `/styles/${configuration.name}.css`,
