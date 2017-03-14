@@ -6,13 +6,11 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const minify = require('html-minifier').minify;
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
-// const VENDOR_LIBS = [
-//   'jquery'
-// ]
 const configuration = {
   localhost: 'http://localhost',
   port: 8080,
-  name: process.env.NODE_ENV == 'production' ? '[name][hash]' : '[name]'
+  name: process.env.NODE_ENV == 'production' ? '[name][hash]' : '[name]',
+  publicPath: 'dist'
 }
 
 const webpackConfig = {
@@ -22,7 +20,7 @@ const webpackConfig = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: `scripts/${configuration.name}.js`,
-    publicPath: ''
+    publicPath: configuration.publicPath
   },
   module: {
     rules: [
@@ -111,9 +109,9 @@ const webpackConfig = {
       // BrowserSync options
       {
         // browse to http://localhost:3000/ during development
-        host: 'localhost',
-        port: 3000,
-        server: { baseDir: ['dist'] },
+        host: configuration.localhost,
+        port: configuration.port,
+        server: { baseDir: [configuration.publicPath] },
       },
       // plugin options
       {
