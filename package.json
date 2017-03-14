@@ -1,0 +1,9 @@
+{
+  "name": "webpack-webapp",
+  "version": "1.0.0",
+  "description": "Simple and easy webpack webapp boilerplate",
+  "main": "main.js",
+  "repository": "git@github.com:giacomoalonzi/webpack-webapp.git",
+  "author": "Giacomo Alonzi <hello@giacomoalonzi.io>",
+  "license": "MIT"
+}
