@@ -13,7 +13,7 @@ const configuration = {
   port: 3000,
   name: process.env.NODE_ENV == 'production' ? '[name].[hash]' : '[name]',
   publicPath: 'dist',
-  sourceMap: process.env.NODE_ENV == 'production' ? '-sourceMap' : '+sourceMap',
+  sourceMap: process.env.NODE_ENV == 'production' ? null : 'sourceMap',
 }
 
 const webpackConfig = {
@@ -37,7 +37,7 @@ const webpackConfig = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary
-          use: [`css-loader?options=minimize:${isProduction}${configuration.sourceMap}`, `sass-loader?${configuration.sourceMap}`],
+          use: [`css-loader?options=minimize:${isProduction}`,'resolve-url-loader', `sass-loader?${configuration.sourceMap}`],
         })
       },
       {
