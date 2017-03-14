@@ -6,11 +6,14 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const minify = require('html-minifier').minify;
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
+/* Configuration */
+const isProduction = process.env.NODE_ENV == 'production' ? false : true
 const configuration = {
   localhost: 'http://localhost',
   port: 3000,
-  name: process.env.NODE_ENV == 'production' ? '[name][hash]' : '[name]',
-  publicPath: 'dist'
+  name: process.env.NODE_ENV == 'production' ? '[name].[hash]' : '[name]',
+  publicPath: 'dist',
+  sourceMap: process.env.NODE_ENV == 'production' ? '-sourceMap' : '+sourceMap',
 }
 
 const webpackConfig = {
@@ -34,7 +37,7 @@ const webpackConfig = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary
-          use: ['css-loader?options=minimize:true', 'sass-loader'],
+          use: [`css-loader?options=minimize:${isProduction}${configuration.sourceMap}`, `sass-loader?${configuration.sourceMap}`],
         })
       },
       {
@@ -88,7 +91,7 @@ const webpackConfig = {
     }),
     new UglifyJSPlugin({
       beautify: false,
-      compress: true,
+      compress: isProduction,
       warnings: false,
     }),
     new webpack.optimize.CommonsChunkPlugin({
@@ -97,9 +100,9 @@ const webpackConfig = {
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       minify: {
-        removeEmptyAttributes: true,
-        removeTagWhitespace: true,
-        collapseWhitespace: true,
+        removeEmptyAttributes: isProduction,
+        removeTagWhitespace: isProduction,
+        collapseWhitespace: isProduction,
       },
     }),
     new webpack.DefinePlugin({
