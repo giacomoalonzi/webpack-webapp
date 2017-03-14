@@ -6,6 +6,10 @@
   "repository": "git@github.com:giacomoalonzi/webpack-webapp.git",
   "author": "Giacomo Alonzi <hello@giacomoalonzi.io>",
   "license": "MIT",
+  "scripts": {
+    "build": "NODE_ENV=production rimraf dist && webpack -p ",
+    "start": "webpack --progress --colors --watch"
+  },
   "babel": {
     "presets": "es2015"
   },
