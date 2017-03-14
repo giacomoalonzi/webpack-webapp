@@ -8,7 +8,7 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 const configuration = {
   localhost: 'http://localhost',
-  port: 8080,
+  port: 3000,
   name: process.env.NODE_ENV == 'production' ? '[name][hash]' : '[name]',
   publicPath: 'dist'
 }
@@ -20,7 +20,7 @@ const webpackConfig = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: `scripts/${configuration.name}.js`,
-    publicPath: configuration.publicPath
+    publicPath: ''
   },
   module: {
     rules: [
