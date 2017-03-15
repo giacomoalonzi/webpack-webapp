@@ -7,7 +7,7 @@
   "author": "Giacomo Alonzi <hello@giacomoalonzi.io>",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production rimraf dist && webpack -p ",
+    "build": "rimraf dist && webpack -p",
     "start": "webpack --progress --colors --watch"
   },
   "babel": {
