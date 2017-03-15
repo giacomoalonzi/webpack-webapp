@@ -8,18 +8,18 @@ const minify = require('html-minifier').minify
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const merge = require('webpack-merge')
 const qs = require('qs')
-console.log(isProduction)
 
 /* User Configuration  */
 const configuration = {
   localhost: 'http://localhost',
   port: 3000,
   name: isProduction ? '[name].[hash]' : '[name]',
-  publicPath: isProduction ? path.resolve(__dirname, 'dist') : '/'
+  publicPath: '/'
 }
 
 // webpack configuration
 let webpackConfig = {
+  context: path.resolve(__dirname),
   entry: {
     main: ['./src/assets/scripts/main.js', './src/assets/styles/main.scss']
   },
@@ -57,7 +57,7 @@ let webpackConfig = {
         test: /\.(gif|png|jpe?g|svg)$/i,
         exclude: /src\/assets\/fonts/,
         loader: [
-          `file-loader?name=images/${configuration.name}.[ext]`,
+          `file-loader?name=images/[name].[ext]`,
           {
             loader: 'image-webpack-loader',
             options: {
@@ -77,10 +77,13 @@ let webpackConfig = {
               svgo: {
                 plugins: [
                   {
-                    removeViewBox: false
+                    removeViewBox: true
                   },
                   {
-                    removeEmptyAttrs: false
+                    cleanupAttrs: true
+                  },
+                  {
+                    removeEmptyAttrs: true
                   }
                 ]
               }
@@ -90,6 +93,7 @@ let webpackConfig = {
       },
       {
         test: /\.(ttf|eot|woff2?|svg)$/,
+        exclude: /src\/assets\/images/,
         use: [
           `file-loader?name=fonts/${configuration.name}.[ext]`
         ]
@@ -124,7 +128,8 @@ let webpackConfig = {
         // browse to http://localhost:3000/ during development
         host: configuration.localhost,
         port: configuration.port,
-        server: { baseDir: ['dist'] }
+        server: { baseDir: ['dist'] },
+        watch: ['src/*.html', 'src/scripts/*.js']
       },
       // plugin options
       {
@@ -133,10 +138,7 @@ let webpackConfig = {
         reload: !isProduction
       }
     )
-
   ]
 }
-
-
 
 module.exports = webpackConfig
