@@ -17,6 +17,7 @@
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.0",
     "babel-preset-env": "^1.2.1",
+    "babel-preset-es2015-webpack": "^6.4.3",
     "browser-sync": "^2.18.8",
     "browser-sync-webpack-plugin": "^1.1.4",
     "browsersync-webpack-plugin": "^0.4.1",
@@ -31,6 +32,7 @@
     "image-webpack-loader": "^3.2.0",
     "imagemin-mozjpeg": "^6.0.0",
     "imagemin-webpack-plugin": "^1.4.4",
+    "markdown-styles": "^3.1.9",
     "node-sass": "^4.5.0",
     "optimize-css-assets-webpack-plugin": "^1.3.0",
     "postcss-loader": "^1.3.1",
@@ -42,6 +44,8 @@
     "uglifyjs-webpack-plugin": "^0.2.1",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0"
+    "webpack-dev-server": "^2.3.0",
+    "webpack-hot-middleware": "^2.17.1",
+    "webpack-merge": "^4.0.0"
   },
 }
