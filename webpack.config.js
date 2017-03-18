@@ -7,6 +7,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const minify = require('html-minifier').minify
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const merge = require('webpack-merge')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const qs = require('qs')
 
 /* User Configuration  */
@@ -14,7 +15,9 @@ const configuration = {
   localhost: 'http://localhost',
   port: 3000,
   name: isProduction ? '[name].[hash]' : '[name]',
-  publicPath: '/'
+  publicPath: '/',
+  appName: 'AppName',
+  favicon: './src/assets/images/favicon.png'
 }
 
 // webpack configuration
@@ -101,8 +104,29 @@ let webpackConfig = {
     ]
   },
   plugins: [
+    new FaviconsWebpackPlugin({
+      logo: configuration.favicon,
+      prefix: 'icons-[hash]/',
+      background: '#fff',
+      title: configuration.appName,
+      inject: true,
+      emitStats: true,
+      statsFilename: 'iconstats-[hash].json',
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: true,
+        coast: false,
+        favicons: true,
+        firefox: true,
+        opengraph: false,
+        twitter: false,
+        yandex: false,
+        windows: false
+      }
+    }),
     new ExtractTextPlugin({
-      filename:`styles/${configuration.name}.css`,
+      filename: `styles/${configuration.name}.css`,
       loader: 'css-loader?modules-true!postcss-loader!sass-loader',
       disable: !isProduction
     }),
@@ -115,6 +139,8 @@ let webpackConfig = {
       names: ['manifest']
     }),
     new HtmlWebpackPlugin({
+      title: 'Title of your app',
+      filename: 'index.html',
       template: 'src/index.html',
       minify: {
         removeEmptyAttributes: isProduction,
