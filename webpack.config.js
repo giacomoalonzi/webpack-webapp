@@ -17,7 +17,14 @@ const configuration = {
   name: isProduction ? '[name].[hash]' : '[name]',
   publicPath: '/',
   appName: 'AppName',
-  favicon: './src/assets/images/favicon.png'
+  favicon: './src/assets/images/favicon.png',
+  // this is the html minify options.
+  title: 'Title of your app',
+  minify: {
+    removeEmptyAttributes: isProduction,
+    removeTagWhitespace: isProduction,
+    collapseWhitespace: isProduction
+  }
 }
 
 // webpack configuration
@@ -139,14 +146,10 @@ let webpackConfig = {
       names: ['manifest']
     }),
     new HtmlWebpackPlugin({
-      title: 'Title of your app',
+      title: configuration.title,
       filename: 'index.html',
       template: 'src/index.html',
-      minify: {
-        removeEmptyAttributes: isProduction,
-        removeTagWhitespace: isProduction,
-        collapseWhitespace: isProduction
-      }
+      minify: configuration.minify
     }),
     new BrowserSyncPlugin(
       // BrowserSync options
