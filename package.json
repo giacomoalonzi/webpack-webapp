@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rimraf dist && webpack -p",
-    "start": "webpack --progress --colors --watch"
+    "start": "rimraf dist && webpack --progress --colors --watch"
   },
   "babel": {
     "presets": "es2015"
