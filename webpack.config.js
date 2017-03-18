@@ -10,6 +10,12 @@ const merge = require('webpack-merge')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const qs = require('qs')
 
+const htmlMinifyOptions = {
+  removeEmptyAttributes: isProduction,
+  removeTagWhitespace: isProduction,
+  collapseWhitespace: isProduction
+}
+
 /* User Configuration  */
 const configuration = {
   localhost: 'http://localhost',
@@ -17,14 +23,8 @@ const configuration = {
   name: isProduction ? '[name].[hash]' : '[name]',
   publicPath: '/',
   appName: 'AppName',
-  favicon: './src/assets/images/favicon.png',
-  // this is the html minify options.
-  title: 'Title of your app',
-  minify: {
-    removeEmptyAttributes: isProduction,
-    removeTagWhitespace: isProduction,
-    collapseWhitespace: isProduction
-  }
+  appTitle: 'Title of your app',
+  faviconPath: './src/assets/images/favicon.png'
 }
 
 // webpack configuration
@@ -112,7 +112,7 @@ let webpackConfig = {
   },
   plugins: [
     new FaviconsWebpackPlugin({
-      logo: configuration.favicon,
+      logo: configuration.faviconPath,
       prefix: 'icons-[hash]/',
       background: '#fff',
       title: configuration.appName,
@@ -146,10 +146,10 @@ let webpackConfig = {
       names: ['manifest']
     }),
     new HtmlWebpackPlugin({
-      title: configuration.title,
+      title: configuration.appTitle,
       filename: 'index.html',
       template: 'src/index.html',
-      minify: configuration.minify
+      minify: htmlMinifyOptions
     }),
     new BrowserSyncPlugin(
       // BrowserSync options
