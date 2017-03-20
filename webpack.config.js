@@ -9,6 +9,7 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const merge = require('webpack-merge')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const qs = require('qs')
+const publicPath = isProduction ? '/' : 'http://localhost:8080/'
 const htmlMinifyOptions = {
   removeEmptyAttributes: isProduction,
   removeTagWhitespace: isProduction,
@@ -32,9 +33,8 @@ const sassConfiguration = isProduction ? sassProduction : sassDeveloper
 /* User Configuration  */
 const configuration = {
   localhost: 'http://localhost',
-  port: 3000,
+  port: 3000, // this is browserSync Port
   name: isProduction ? '[name].[hash]' : '[name]',
-  publicPath: isProduction ? '/' : 'http://localhost:8080/',
   appName: 'AppName',
   appTitle: 'Title of your app',
   faviconPath: './src/assets/images/favicon.png'
@@ -49,7 +49,7 @@ let webpackConfig = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: `scripts/${configuration.name}.js`,
-    publicPath: configuration.publicPath
+    publicPath: publicPath
   },
   module: {
     rules: [
@@ -161,14 +161,10 @@ let webpackConfig = {
         // browse to http://localhost:3000/ during development
         host: configuration.localhost,
         port: configuration.port,
-        // server: { baseDir: ['dist'] },
-        proxy: 'localhost:8080',
+        proxy: 'localhost:8080', // proxy for browsersync
         watch: ['src/*.html']
       },
-      // plugin options
       {
-        // prevent BrowserSync from reloading the page
-        // and let Webpack Dev Server take care of this
         reload: false
       }
     ),
