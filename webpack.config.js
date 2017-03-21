@@ -117,24 +117,24 @@ let webpackConfig = {
   },
   plugins: [
     new FaviconsWebpackPlugin({
-      logo: configuration.faviconPath,
-      prefix: 'icons-[hash]/',
+      logo: configuration.favicon,
+      prefix: './images/favicons-[hash]/',
       background: '#fff',
       title: configuration.appName,
-      inject: true,
-      emitStats: true,
+      inject: isProduction,
+      emitStats: isProduction,
       statsFilename: 'iconstats-[hash].json',
       icons: {
-        android: true,
-        appleIcon: true,
-        appleStartup: true,
+        android: isProduction,
+        appleIcon: isProduction,
+        appleStartup: isProduction,
         coast: false,
-        favicons: true,
-        firefox: true,
-        opengraph: false,
-        twitter: false,
-        yandex: false,
-        windows: false
+        favicons: isProduction,
+        firefox: isProduction,
+        opengraph: isProduction,
+        twitter: isProduction,
+        yandex: isProduction,
+        windows: isProduction
       }
     }),
     new ExtractTextPlugin({
