@@ -65,7 +65,7 @@ let webpackConfig = {
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
         exclude: /src\/assets\/fonts/,
-        loader: [
+        use: [
           `file-loader?name=images/[name].[ext]`,
           {
             loader: 'image-webpack-loader',
