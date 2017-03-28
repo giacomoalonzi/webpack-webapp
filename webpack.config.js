@@ -117,7 +117,7 @@ let webpackConfig = {
   },
   plugins: [
     new FaviconsWebpackPlugin({
-      logo: configuration.favicon,
+      logo: configuration.faviconPath,
       prefix: './images/favicons-[hash]/',
       background: '#fff',
       title: configuration.appName,
