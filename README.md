@@ -14,7 +14,6 @@ const configuration = {
   localhost: 'http://localhost',
   port: 3000,
   name: isProduction ? '[name].[hash]' : '[name]',
-  publicPath: '/',
   appName: 'AppName',
   appTitle: 'Title Of Your App',
   faviconPath: './src/assets/images/favicon.png'
