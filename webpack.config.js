@@ -9,19 +9,32 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const merge = require('webpack-merge')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const qs = require('qs')
-
+const publicPath = isProduction ? '/' : 'http://localhost:8080/'
 const htmlMinifyOptions = {
   removeEmptyAttributes: isProduction,
   removeTagWhitespace: isProduction,
   collapseWhitespace: isProduction
 }
 
+const sassProduction = ExtractTextPlugin.extract({
+  fallback: 'style-loader',
+  use: [
+    `css-loader?${qs.stringify({
+      minimize: true
+    })}`,
+    'resolve-url-loader',
+    `sass-loader`
+  ]
+})
+
+const sassDeveloper = ['style-loader', 'css-loader', 'sass-loader?sourceMap']
+
+const sassConfiguration = isProduction ? sassProduction : sassDeveloper
 /* User Configuration  */
 const configuration = {
   localhost: 'http://localhost',
-  port: 3000,
+  port: 3000, // this is browserSync Port
   name: isProduction ? '[name].[hash]' : '[name]',
-  publicPath: '/',
   appName: 'AppName',
   appTitle: 'Title of your app',
   faviconPath: './src/assets/images/favicon.png'
@@ -36,7 +49,7 @@ let webpackConfig = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: `scripts/${configuration.name}.js`,
-    publicPath: configuration.publicPath
+    publicPath: publicPath
   },
   module: {
     rules: [
@@ -47,26 +60,12 @@ let webpackConfig = {
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          // resolve-url-loader may be chained before sass-loader if necessary
-          use: [
-            // css loader enable css minimize if is production env
-            `css-loader?${qs.stringify({
-              minimize: isProduction
-            })}`,
-            'resolve-url-loader',
-            // sass loader enable sourceMap if is not production env
-            `sass-loader?${qs.stringify({
-              sourceMap: !isProduction
-            })}`
-          ]
-        })
+        use: sassConfiguration
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
         exclude: /src\/assets\/fonts/,
-        loader: [
+        use: [
           `file-loader?name=images/[name].[ext]`,
           {
             loader: 'image-webpack-loader',
@@ -110,26 +109,32 @@ let webpackConfig = {
       }
     ]
   },
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    compress: true,
+    hot: true,
+    open: false
+  },
   plugins: [
     new FaviconsWebpackPlugin({
       logo: configuration.faviconPath,
-      prefix: 'icons-[hash]/',
+      prefix: './images/favicons-[hash]/',
       background: '#fff',
       title: configuration.appName,
-      inject: true,
-      emitStats: true,
+      inject: isProduction,
+      emitStats: isProduction,
       statsFilename: 'iconstats-[hash].json',
       icons: {
-        android: true,
-        appleIcon: true,
-        appleStartup: true,
+        android: isProduction,
+        appleIcon: isProduction,
+        appleStartup: isProduction,
         coast: false,
-        favicons: true,
-        firefox: true,
-        opengraph: false,
-        twitter: false,
-        yandex: false,
-        windows: false
+        favicons: isProduction,
+        firefox: isProduction,
+        opengraph: isProduction,
+        twitter: isProduction,
+        yandex: isProduction,
+        windows: isProduction
       }
     }),
     new ExtractTextPlugin({
@@ -152,21 +157,19 @@ let webpackConfig = {
       minify: htmlMinifyOptions
     }),
     new BrowserSyncPlugin(
-      // BrowserSync options
       {
         // browse to http://localhost:3000/ during development
         host: configuration.localhost,
         port: configuration.port,
-        server: { baseDir: ['dist'] },
-        watch: ['src/*.html', 'src/scripts/*.js']
+        proxy: 'localhost:8080', // proxy for browsersync
+        watch: ['src/*.html']
       },
-      // plugin options
       {
-        // prevent BrowserSync from reloading the page
-        // and let Webpack Dev Server take care of this
-        reload: !isProduction
+        reload: false
       }
-    )
+    ),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
   ]
 }
 
