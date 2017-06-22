@@ -158,14 +158,12 @@ let webpackConfig = {
     }),
     new BrowserSyncPlugin(
       {
-        // browse to http://localhost:3000/ during development
+        // browse http://localhost:3000/ during development
         host: configuration.localhost,
         port: configuration.port,
         proxy: 'localhost:8080', // proxy for browsersync
-        watch: ['src/*.html']
-      },
-      {
-        reload: false
+        watch: ['src/*.html'],
+        reload: false,
       }
     ),
     new webpack.HotModuleReplacementPlugin(),
