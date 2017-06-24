@@ -73,7 +73,7 @@ let webpackConfig = {
             query: {
               pretty: true,
               data: {
-                title: 'hello',
+                global: require('./src/content/global.json'),
                 home: require('./src/content/home.json')
               }
             }
