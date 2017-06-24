@@ -13,7 +13,8 @@ const publicPath = isProduction ? '/' : 'http://localhost:8080/'
 const htmlMinifyOptions = {
   removeEmptyAttributes: isProduction,
   removeTagWhitespace: isProduction,
-  collapseWhitespace: isProduction
+  collapseWhitespace: isProduction,
+  inject: 'body'
 }
 
 const sassProduction = ExtractTextPlugin.extract({
@@ -35,8 +36,8 @@ const configuration = {
   localhost: 'http://localhost',
   port: 3000, // this is browserSync Port
   name: isProduction ? '[name].[hash]' : '[name]',
-  appName: 'AppName',
-  appTitle: 'Title of your app',
+  appName: 'Aspisec',
+  appTitle: 'Aspisec — Cybersecurity tailored company',
   faviconPath: './src/assets/images/favicon.png'
 }
 
@@ -61,6 +62,14 @@ let webpackConfig = {
       {
         test: /\.scss$/,
         use: sassConfiguration
+      },
+      {
+        test: /\.pug$/,
+        use: ['html-loader', 'pug-html-loader']
+      },
+      {
+        test: /\.json$/,
+        use: 'json-loader'
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
@@ -152,8 +161,7 @@ let webpackConfig = {
     }),
     new HtmlWebpackPlugin({
       title: configuration.appTitle,
-      filename: 'index.html',
-      template: 'src/index.html',
+      template: './src/views/index.pug',
       minify: htmlMinifyOptions
     }),
     new BrowserSyncPlugin(
@@ -162,8 +170,7 @@ let webpackConfig = {
         host: configuration.localhost,
         port: configuration.port,
         proxy: 'localhost:8080', // proxy for browsersync
-        watch: ['src/*.html'],
-        reload: false,
+        reload: false
       }
     ),
     new webpack.HotModuleReplacementPlugin(),
