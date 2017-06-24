@@ -65,11 +65,17 @@ let webpackConfig = {
       },
       {
         test: /\.pug$/,
-        use: ['html-loader', 'pug-html-loader']
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader'
+        exclude: ['/node_modules/'],
+        use: ['html-loader', `pug-html-loader?${qs.stringify({
+          options: {
+            debug: !isProduction,
+            pretty: true,
+            data: {
+              title: 'hello',
+              home: require('./src/content/home.json')
+            }
+          }
+        })}`]
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
