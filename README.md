@@ -1,4 +1,4 @@
-# Simple Webpack Webapp Boilerplate
+# Simple Webpack Webapp Boilerplate with pug (jade)
 
 
 ### Installation
