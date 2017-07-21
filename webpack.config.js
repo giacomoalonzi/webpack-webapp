@@ -64,10 +64,26 @@ let webpackConfig = {
         use: sassConfiguration
       },
       {
-        test: /\.pug$/,
+        test: /src\/views\/.+\.pug$/,
         exclude: ['/node_modules/'],
         use: [
           'html-loader',
+          {
+            loader: 'pug-html-loader',
+            query: {
+              pretty: true,
+              data: {
+                global: require('./src/content/global.json'),
+                home: require('./src/content/home.json')
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /src\/views\/index\.pug$/,
+        exclude: ['/node_modules/'],
+        use: [
           {
             loader: 'pug-html-loader',
             query: {
