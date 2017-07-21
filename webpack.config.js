@@ -64,37 +64,9 @@ let webpackConfig = {
         use: sassConfiguration
       },
       {
-        test: /src\/views\/.+\.pug$/,
+        test: /.pug$/,
         exclude: ['/node_modules/'],
-        use: [
-          'html-loader',
-          {
-            loader: 'pug-html-loader',
-            query: {
-              pretty: true,
-              data: {
-                global: require('./src/content/global.json'),
-                home: require('./src/content/home.json')
-              }
-            }
-          }
-        ]
-      },
-      {
-        test: /src\/views\/index\.pug$/,
-        exclude: ['/node_modules/'],
-        use: [
-          {
-            loader: 'pug-html-loader',
-            query: {
-              pretty: true,
-              data: {
-                global: require('./src/content/global.json'),
-                home: require('./src/content/home.json')
-              }
-            }
-          }
-        ]
+        use: 'pug-loader',
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
