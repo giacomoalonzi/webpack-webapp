@@ -36,8 +36,8 @@ const configuration = {
   localhost: 'http://localhost',
   port: 3000, // this is browserSync Port
   name: isProduction ? '[name].[hash]' : '[name]',
-  appName: 'Aspisec',
-  appTitle: 'Aspisec — Cybersecurity tailored company',
+  appName: 'Your Appname',
+  appTitle: 'Your App Title',
   faviconPath: './src/assets/images/favicon.png'
 }
 
@@ -145,6 +145,10 @@ let webpackConfig = {
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
+    headers: {
+      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Access-Control-Allow-Credentials': 'true'
+    },
     compress: true,
     hot: true,
     open: false
