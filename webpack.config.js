@@ -66,7 +66,12 @@ let webpackConfig = {
       {
         test: /.pug$/,
         exclude: ['/node_modules/'],
-        use: 'pug-loader',
+        use: {
+          loader: 'pug-loader',
+          query: {
+            root: path.resolve(__dirname, 'src/views'),
+          }
+        },
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
@@ -163,7 +168,8 @@ let webpackConfig = {
     new HtmlWebpackPlugin({
       title: configuration.appTitle,
       template: './src/views/index.pug',
-      minify: htmlMinifyOptions
+      minify: htmlMinifyOptions,
+      data: require(`./src/content/home.json`)
     }),
     new BrowserSyncPlugin(
       {
